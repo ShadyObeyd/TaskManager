@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using TaskManager.App.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
-
-namespace TaskManager.App.Areas.Identity.Pages.Account
+﻿namespace TaskManager.App.Areas.Identity.Pages.Account
 {
+    using Microsoft.AspNetCore.Authorization;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.WebUtilities;
+    using Microsoft.AspNetCore.Identity;
+
+    using TaskManager.Models.DataModels;
+
     [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {

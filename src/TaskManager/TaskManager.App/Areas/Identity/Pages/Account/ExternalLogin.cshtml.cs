@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using TaskManager.App.Areas.Identity.Data;
+using TaskManager.Models.DataModels;
 
 namespace TaskManager.App.Areas.Identity.Pages.Account
 {

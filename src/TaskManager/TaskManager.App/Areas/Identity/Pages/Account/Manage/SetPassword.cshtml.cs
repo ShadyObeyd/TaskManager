@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TaskManager.App.Areas.Identity.Data;
+using TaskManager.Models.DataModels;
 
 namespace TaskManager.App.Areas.Identity.Pages.Account.Manage
 {

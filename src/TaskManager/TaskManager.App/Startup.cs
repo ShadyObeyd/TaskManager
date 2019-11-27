@@ -6,8 +6,9 @@ namespace TaskManager.App
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using TaskManager.App.Areas.Identity.Data;
-    using TaskManager.App.Models;
+
+    using Data;
+    using TaskManager.Models.DataModels;
 
     public class Startup
     {
@@ -24,7 +25,20 @@ namespace TaskManager.App
             services.AddDbContext<TaskManagerContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<TaskManagerUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<TaskManagerUser>(options => 
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
                 .AddEntityFrameworkStores<TaskManagerContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
