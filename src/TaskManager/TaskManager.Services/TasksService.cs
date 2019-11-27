@@ -60,6 +60,11 @@
 
             foreach (var usernameToken in usernameTokens)
             {
+                if (!this.db.Users.Any(u => u.UserName == usernameToken))
+                {
+                    continue;
+                }
+
                 var userTask = new UserTask
                 {
                     Task = task,
