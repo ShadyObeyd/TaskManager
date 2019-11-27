@@ -112,7 +112,7 @@ namespace TaskManager.App.Areas.Identity.Pages.Account.Manage
             }
         }
 
-        private async Task LoadSharedKeyAndQrCodeUriAsync(TaskManagerUser user)
+        private async System.Threading.Tasks.Task LoadSharedKeyAndQrCodeUriAsync(TaskManagerUser user)
         {
             // Load the authenticator key & QR code URI to display on the form
             var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);

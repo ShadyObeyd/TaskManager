@@ -10,6 +10,18 @@
         {
         }
 
+        public DbSet<Task> Tasks { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<TaskType> TaskTypes { get; set; }
+
+        public DbSet<TaskStatus> TaskStatuses { get; set; }
+
+        public DbSet<CommentType> CommentTypes { get; set; }
+
+        public DbSet<UserTask> UsersTasks { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -21,6 +33,7 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<UserTask>().HasKey(ut => new { ut.UserId, ut.TaskId });
             base.OnModelCreating(builder);
         }
     }
