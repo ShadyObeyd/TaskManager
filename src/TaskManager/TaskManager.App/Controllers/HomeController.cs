@@ -4,23 +4,24 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using TaskManager.App.Models;
+    using Services;
+
     public class HomeController : Controller
     {
+        private readonly TasksService tasksService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, TasksService tasksService)
         {
             _logger = logger;
+            this.tasksService = tasksService;
         }
 
         public IActionResult Index()
         {
-            return this.View();
-        }
+            var viewModel = this.tasksService.GetAllTasks();
 
-        public IActionResult Privacy()
-        {
-            return this.View();
+            return this.View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
