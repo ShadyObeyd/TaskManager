@@ -18,8 +18,6 @@
 
         public DbSet<TaskStatus> TaskStatuses { get; set; }
 
-        public DbSet<CommentType> CommentTypes { get; set; }
-
         public DbSet<UserTask> UsersTasks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -1,0 +1,45 @@
+﻿@using TaskManager.Models.ViewModels.Tasks
+@model CreateTaskViewModel
+
+    <form class="mx-auto col-md-6" method="post" asp-controller="Tasks" asp-action="Create">
+        <hr class="hr-style" />
+        <div class="form-group">
+            <div class="text-center">
+                <label asp-for="TaskDescription"></label>
+            </div>
+            <textarea style="resize: none" rows="14" asp-for="TaskDescription" class="form-control" placeholder="Content..."></textarea>
+            <span asp-validation-for="TaskDescription" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="text-center">
+                <label asp-for="AssignedTo"></label>
+            </div>
+            <input asp-for="AssignedTo" type="text" class="form-control" placeholder="Assign to..." />
+            <span asp-validation-for="AssignedTo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="text-center">
+                <label asp-for="RequiredByDate"></label>
+            </div>
+            <input asp-for="RequiredByDate" type="text" class="form-control" placeholder="Example: 02.09.2015" />
+            <span asp-validation-for="RequiredByDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="text-center">
+                <label asp-for="TaskStatus"></label>
+            </div>
+            <input asp-for="TaskStatus" type="text" class="form-control" placeholder="Statuses..." />
+            <span asp-validation-for="TaskStatus" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="text-center">
+                <label asp-for="TaskType"></label>
+            </div>
+            <input asp-for="TaskType" type="text" class="form-control" placeholder="Types..." />
+            <span asp-validation-for="TaskType" class="text-danger"></span>
+        </div>
+        <hr class="hr-style" />
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-dark">Create Task</button>
+        </div>
+    </form>

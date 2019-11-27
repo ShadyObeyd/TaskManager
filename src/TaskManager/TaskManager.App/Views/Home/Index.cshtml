@@ -1,6 +1,18 @@
 ﻿@using TaskManager.Models.ViewModels.Tasks
 @model IndexTaskListViewModel
 
+@if (this.User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <a class="btn btn-dark" asp-controller="Tasks" asp-action="Create">Create Task</a>
+    </div>
+}
+else
+{
+    <h5>
+        <a asp-area="Identity" asp-page="/Account/Register">Register</a> or <a asp-area="Identity" asp-page="/Account/Login">Login</a> to be able to create tasks.
+    </h5>
+}
 @if (Model.Tasks.Any())
 {
     <div class="row">
@@ -19,5 +31,5 @@
 }
 else
 {
-    <h4 class="text-center">There are currently no tasks.</h4>
+    <h2 class="text-center">There are currently no tasks.</h2>
 }

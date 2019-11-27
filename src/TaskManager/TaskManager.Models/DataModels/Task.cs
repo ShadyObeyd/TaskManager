@@ -7,7 +7,6 @@
     {
         public Task()
         {
-            this.CreatedDate = DateTime.Now;
             this.Status = new HashSet<TaskStatus>();
             this.Type = new HashSet<TaskType>();
             this.AssignedTo = new HashSet<UserTask>();
