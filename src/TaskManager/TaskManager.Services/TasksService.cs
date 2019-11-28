@@ -44,8 +44,8 @@
                 Creator = this.db.Users.FirstOrDefault(u => u.Id == userId).UserName,
                 TaskDescription = inputModel.TaskDescription,
                 RequiredBy = DateTime.ParseExact(inputModel.RequiredByDate, "dd.MM.yyyy", CultureInfo.InvariantCulture),
-                Status = GenerateStatuses(inputModel.TaskStatus),
-                Type = GenerateTypes(inputModel.TaskType),
+                Status = this.GenerateStatuses(inputModel.TaskStatus),
+                Type = this.GenerateTypes(inputModel.TaskType)
             };
 
             var usersTasks = GetAssignedTo(inputModel.AssignedTo, task);
@@ -55,7 +55,7 @@
             this.db.SaveChanges();
         }
 
-        public ReadTaskViewModel GetReadTakModel(string taskId)
+        public ReadTaskViewModel GetReadTaskModel(string taskId)
         {
             var task = this.db.Tasks.FirstOrDefault(t => t.Id == taskId);
 
@@ -63,6 +63,10 @@
             {
                 throw new ArgumentException();
             }
+
+            var assginedUsers = this.db.UsersTasks.Where(ut => ut.TaskId == taskId).Select(ut => ut.User.UserName);
+            var statuses = this.db.TaskStatuses.Where(ts => ts.TaskId == taskId).Select(ts => ts.Content);
+            var types = this.db.TaskTypes.Where(tt => tt.TaskId == taskId).Select(tt => tt.Content);
 
             return new ReadTaskViewModel
             {
@@ -72,9 +76,9 @@
                 Comments = this.commentService.GetCommentViewModel(taskId),
                 DateCreated = task.CreatedDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
                 RequiredByDate = task.RequiredBy.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
-                AssginedTo = string.Join(", ", task.AssignedTo),
-                Statuses = string.Join(", ", task.Status),
-                Types = string.Join(", ", task.Type)
+                AssginedTo = string.Join(", ", assginedUsers),
+                Statuses = string.Join(", ", statuses),
+                Types = string.Join(", ", types)
             };
         }
 

@@ -5,6 +5,13 @@
     <footer class="blockquote-footer">@Model.Creator</footer>
 </blockquote>
 <p>@Model.Content</p>
+<blockquote class="blockquote text-right">
+    <footer class="blockquote-footer">@Model.DateCreated</footer>
+</blockquote>
+<h5>Task is due until: @Model.RequiredByDate</h5>
+<p>People working on this task: @Model.AssginedTo</p>
+<p>Task types: @Model.Types</p>
+<p>Task statuses: @Model.Statuses</p>
 @if (this.User.Identity.IsAuthenticated)
 {
     <form class="mx-auto col-md-6" asp-controller="Comments" asp-action="Create" method="post">

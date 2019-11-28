@@ -47,7 +47,7 @@
 
             try
             {
-                var model = this.tasksService.GetReadTakModel(taskId);
+                var model = this.tasksService.GetReadTaskModel(taskId);
 
                 return this.View(model);
             }

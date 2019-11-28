@@ -1,0 +1,44 @@
+﻿@using TaskManager.Models.ViewModels.Tasks
+@model ReadTaskViewModel
+
+<blockquote class="blockquote text-right">
+    <footer class="blockquote-footer">@Model.Creator</footer>
+</blockquote>
+<p>@Model.Content</p>
+<blockquote class="blockquote text-right">
+    <footer class="blockquote-footer">@Model.DateCreated</footer>
+</blockquote>
+<h5>Task is due until: @Model.RequiredByDate</h5>
+<p>People working on this task: @Model.AssginedTo</p>
+<p>Task types: @Model.Types</p>
+<p>Task statuses: @Model.Statuses</p>
+<div class="mx-auto col-md-6">
+    <h4>Comments:</h4>
+    <hr class="hr-style" />
+    @foreach (var comment in Model.Comments)
+    {
+        <div style="margin-top: 4%">
+            <div class="text-dark">
+                @comment.Creator:
+            </div>
+            @if (comment.Creator == this.User.Identity.Name)
+            {
+                <form class="form-inline" asp-controller="Comments" asp-action="Edit" method="post">
+                    <input class="commentId" name="commentId" value="@comment.Id" hidden />
+                    <input class="taskId" name="taskId" value="@Model.Id" hidden />
+                    <textarea style="resize: none" cols="80" class="form-control" name="content" id="content">@comment.Content</textarea>
+                    <div class="col-xl-auto">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="text-muted">
+                    @comment.Content
+                </div>
+            }
+        </div>
+        <hr />
+    }
+</div>
