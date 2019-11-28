@@ -1,1 +1,62 @@
-﻿
+﻿@using TaskManager.Models.ViewModels.Tasks
+@model ReadTaskViewModel
+
+<blockquote class="blockquote text-right">
+    <footer class="blockquote-footer">@Model.Creator</footer>
+</blockquote>
+<p>@Model.Content</p>
+@if (this.User.Identity.IsAuthenticated)
+{
+    <form class="mx-auto col-md-6" asp-controller="Comments" asp-action="Create" method="post">
+        <div class="form-group">
+            <input class="taskId" name="taskId" value="@Model.Id" hidden />
+        </div>
+        <div class="input-group">
+            <textarea style="resize: none" class="form-control" name="content" id="content" placeholder="Content..."></textarea>
+            <span class="input-group-btn">
+                <button style="margin: 10%" type="submit" class="btn btn-dark">Add Comment</button>
+            </span>
+        </div>
+    </form>
+}
+else
+{
+    <div class="mx-auto col-md-6">
+        <h4>To add a comment:</h4>
+        <p><a asp-area="Identity" asp-page="/Account/Register">Register</a> to create account or <a asp-area="Identity" asp-page="/Account/Login">Login</a> if you have an existing one.</p>
+    </div>
+}
+<div class="mx-auto col-md-6">
+    <h4>Comments:</h4>
+    <hr class="hr-style" />
+    @foreach (var comment in Model.Comments)
+    {
+        <div style="margin-top: 4%">
+            <div class="text-dark">
+                @comment.Creator:
+            </div>
+            <div class="text-muted">
+                @comment.Content
+            </div>
+        </div>
+        <div class="row">
+            @if (this.User.Identity.Name == comment.Creator)
+            {
+                <div class="col-xl-auto">
+                    <form class="form-inline" asp-area="Administration" asp-controller="Comments" asp-action="Delete" method="post">
+                        <input class="commentId" name="commentId" value="@comment.Id" hidden />
+                        <input class="newsId" name="newsId" value="@Model.Id" hidden />
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Delete Comment</button>
+                    </form>
+                </div>
+                <div class="col-xl-auto">
+                    <form class="form-inline" asp-controller="Comments" asp-action="Edit" method="get">
+                        <input class="newsId" name="newsId" value="@Model.Id" hidden />
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Edit Comment</button>
+                    </form>
+                </div>
+            }
+        </div>
+        <hr />
+    }
+</div>
