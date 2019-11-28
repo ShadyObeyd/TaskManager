@@ -56,5 +56,12 @@
                 return this.RedirectToAction("Home", "Index");
             }
         }
+
+        public IActionResult Delete(string taskId)
+        {
+            this.tasksService.DeleteTask(taskId);
+
+            return this.RedirectToAction("Index", "Home");
+        }
     }
 }

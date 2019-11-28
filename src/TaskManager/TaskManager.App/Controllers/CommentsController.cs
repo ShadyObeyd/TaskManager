@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Services;
+    using System;
     using TaskManager.Models.DataModels;
 
     public class CommentsController : Controller
@@ -39,19 +40,22 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
-            this.commentService.DeleteComment(commentId);
+            try
+            {
+                this.commentService.DeleteComment(commentId);
 
-            return this.RedirectToAction("Open", "Tasks", new { taskId });
+                return this.RedirectToAction("Open", "Tasks", new { taskId });
+            }
+            catch (ArgumentException)
+            {
+                return this.RedirectToAction("Open", "Tasks", new { taskId });
+            }
+            
         }
 
         [HttpGet]
         public IActionResult Edit(string taskId)
         {
-            if (string.IsNullOrEmpty(taskId))
-            {
-                return this.RedirectToAction("Open", "Tasks", new { taskId });
-            }
-
             var model = this.tasksService.GetReadTaskModel(taskId);
             return this.View(model);
         }
@@ -59,14 +63,18 @@
         [HttpPost]
         public IActionResult Edit(string taskId, string commentId, string content)
         {
-            if (string.IsNullOrEmpty(taskId) || string.IsNullOrEmpty(commentId) || string.IsNullOrEmpty(content))
+            try
             {
+                this.commentService.EditComment(commentId, content);
+
                 return this.RedirectToAction("Open", "Tasks", new { taskId });
             }
-
-            this.commentService.EditComment(commentId, content);
-
-            return this.RedirectToAction("Open", "Tasks", new { taskId });
+            catch (ArgumentException)
+            {
+                var model = this.tasksService.GetReadTaskModel(taskId);
+                return this.View(model);
+            }
+            
         }
     }
 }

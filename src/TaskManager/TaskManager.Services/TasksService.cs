@@ -82,6 +82,23 @@
             };
         }
 
+        public void DeleteTask(string taskId)
+        {
+            var taskStatuses = this.db.TaskStatuses.Where(t => t.TaskId == taskId);
+            var taskTypes = this.db.TaskTypes.Where(t => t.TaskId == taskId);
+            var assignedToUsers = this.db.UsersTasks.Where(t => t.TaskId == taskId);
+            var comments = this.db.Comments.Where(c => c.TaskId == taskId);
+            var tasks = this.db.Tasks.FirstOrDefault(t => t.Id == taskId);
+
+            this.db.TaskStatuses.RemoveRange(taskStatuses);
+            this.db.TaskTypes.RemoveRange(taskTypes);
+            this.db.UsersTasks.RemoveRange(assignedToUsers);
+            this.db.Comments.RemoveRange(comments);
+            this.db.Tasks.Remove(tasks);
+
+            this.db.SaveChanges();
+        }
+
         private HashSet<UserTask> GetAssignedTo(string usernames, Task task)
         {
             var usersTasksCollection = new HashSet<UserTask>();
