@@ -76,7 +76,7 @@
                 Comments = this.commentService.GetCommentViewModel(taskId),
                 DateCreated = task.CreatedDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
                 RequiredByDate = task.RequiredBy.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
-                AssginedTo = string.Join(", ", assginedUsers),
+                AssignedTo = string.Join(", ", assginedUsers),
                 Statuses = string.Join(", ", statuses),
                 Types = string.Join(", ", types)
             };
@@ -96,6 +96,55 @@
             this.db.Comments.RemoveRange(comments);
             this.db.Tasks.Remove(tasks);
 
+            this.db.SaveChanges();
+        }
+
+        public EditTaskViewModel GetEditModel(string taskId)
+        {
+            var task = this.db.Tasks.FirstOrDefault(t => t.Id == taskId);
+
+            var assginedUsers = this.db.UsersTasks.Where(ut => ut.TaskId == taskId).Select(ut => ut.User.UserName);
+            var statuses = this.db.TaskStatuses.Where(ts => ts.TaskId == taskId).Select(ts => ts.Content);
+            var types = this.db.TaskTypes.Where(tt => tt.TaskId == taskId).Select(tt => tt.Content);
+
+            return new EditTaskViewModel
+            {
+                Id = task.Id,
+                Creator = task.Creator,
+                Content = task.TaskDescription,
+                DateCreated = task.CreatedDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                RequiredByDate = task.RequiredBy.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                AssignedTo = string.Join(", ", assginedUsers),
+                Statuses = string.Join(", ", statuses),
+                Types = string.Join(", ", types)
+            };
+        }
+
+        public void EditTask(string taskId, EditTaskViewModel inputModel)
+        {
+            var task = this.db.Tasks.FirstOrDefault(t => t.Id == taskId);
+
+            task.TaskDescription = inputModel.Content;
+            task.RequiredBy = DateTime.ParseExact(inputModel.RequiredByDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+
+            var statuses = this.db.TaskStatuses.Where(ts => ts.TaskId == taskId);
+            var types = this.db.TaskTypes.Where(tt => tt.TaskId == taskId);
+
+            this.db.RemoveRange(statuses);
+            this.db.RemoveRange(types);
+
+            task.Status = this.GenerateStatuses(inputModel.Statuses);
+            task.Type = this.GenerateTypes(inputModel.Types);
+
+            var usersTasks = this.db.UsersTasks.Where(t => t.TaskId == taskId);
+
+            this.db.RemoveRange(usersTasks);
+
+            var newUsersTasks = this.GetAssignedTo(inputModel.AssignedTo, task);
+
+            this.db.UsersTasks.AddRange(newUsersTasks);
+
+            this.db.Tasks.Update(task);
             this.db.SaveChanges();
         }
 

@@ -63,5 +63,31 @@
 
             return this.RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult Edit(string taskId)
+        {
+            if (string.IsNullOrEmpty(taskId))
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            var model = this.tasksService.GetEditModel(taskId);
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string taskId, EditTaskViewModel inputModel)
+        {
+            if (string.IsNullOrEmpty(taskId))
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            this.tasksService.EditTask(taskId, inputModel);
+
+            return this.RedirectToAction("Open", "Tasks", new { taskId });
+        }
     }
 }
