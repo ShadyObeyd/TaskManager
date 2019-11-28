@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using TaskManager.Models.DataModels;
     using TaskManager.Models.ViewModels.Tasks;
     using TaskManager.Services;
@@ -35,6 +36,25 @@
             this.tasksService.CreateTask(inputModel, userId);
 
             return this.RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Open(string taskId)
+        {
+            if (string.IsNullOrEmpty(taskId))
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            try
+            {
+                var model = this.tasksService.GetReadTakModel(taskId);
+
+                return this.View(model);
+            }
+            catch (ArgumentException)
+            {
+                return this.RedirectToAction("Home", "Index");
+            }
         }
     }
 }

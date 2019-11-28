@@ -1,7 +1,6 @@
 ﻿namespace TaskManager.Models.DataModels
 {
     using System;
-    using System.Collections.Generic;
 
     public class Comment : BaseModel
     {
@@ -11,5 +10,9 @@
 
         public string CreatorId { get; set; }
         public virtual TaskManagerUser Creator { get; set; }
+
+        public string TaskId { get; set; }
+
+        public virtual Task Task { get; set; }
     }
 }

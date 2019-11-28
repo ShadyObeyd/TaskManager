@@ -22,7 +22,12 @@ else
                 <div class="card">
                     <div class="card-body">
                         <p class="card-text">@task.PartialContent</p>
-                        <a href="#" class="btn btn-dark">Open</a>
+                        <form class="form-inline" asp-controller="Tasks" asp-action="Open" method="post">
+                            <input class="taskId" name="taskId" value="@task.Id" hidden />
+                            <div class="button-holder d-flex">
+                                <button type="submit" class="btn btn-dark">Open Task</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

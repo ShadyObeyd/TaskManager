@@ -11,9 +11,11 @@
     public class TasksService
     {
         private readonly TaskManagerContext db;
-        public TasksService(TaskManagerContext db)
+        private readonly CommentService commentService;
+        public TasksService(TaskManagerContext db, CommentService commentService)
         {
             this.db = db;
+            this.commentService = commentService;
         }
 
         public IndexTaskListViewModel GetAllTasks()
@@ -51,6 +53,29 @@
             this.db.Tasks.Add(task);
             this.db.UsersTasks.AddRange(usersTasks);
             this.db.SaveChanges();
+        }
+
+        public ReadTaskViewModel GetReadTakModel(string taskId)
+        {
+            var task = this.db.Tasks.FirstOrDefault(t => t.Id == taskId);
+
+            if (task == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return new ReadTaskViewModel
+            {
+                Id = task.Id,
+                Creator = task.Creator,
+                Content = task.TaskDescription,
+                Comments = this.commentService.GetCommentViewModel(taskId),
+                DateCreated = task.CreatedDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                RequiredByDate = task.RequiredBy.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                AssginedTo = string.Join(", ", task.AssignedTo),
+                Statuses = string.Join(", ", task.Status),
+                Types = string.Join(", ", task.Type)
+            };
         }
 
         private HashSet<UserTask> GetAssignedTo(string usernames, Task task)

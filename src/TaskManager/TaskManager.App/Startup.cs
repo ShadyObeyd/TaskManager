@@ -45,6 +45,7 @@ namespace TaskManager.App
 
             // Application services
             services.AddScoped<TasksService>();
+            services.AddScoped<CommentService>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
