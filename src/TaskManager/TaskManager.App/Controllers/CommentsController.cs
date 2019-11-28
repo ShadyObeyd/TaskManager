@@ -28,5 +28,17 @@
 
             return this.RedirectToAction("Open", "Tasks", new { taskId });
         }
+
+        public IActionResult Delete(string commentId, string taskId)
+        {
+            if (string.IsNullOrEmpty(commentId))
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            this.commentService.DeleteComment(commentId);
+
+            return this.RedirectToAction("Open", "Tasks", new { taskId });
+        }
     }
 }

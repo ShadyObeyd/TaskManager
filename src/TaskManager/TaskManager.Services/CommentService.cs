@@ -40,5 +40,18 @@
             this.db.Comments.Add(comment);
             this.db.SaveChanges();
         }
+
+        public void DeleteComment(string commentId)
+        {
+            var comment = this.db.Comments.FirstOrDefault(c => c.Id == commentId);
+
+            if (comment == null)
+            {
+                throw new ArgumentException();
+            }
+
+            this.db.Comments.Remove(comment);
+            this.db.SaveChanges();
+        }
     }
 }

@@ -43,15 +43,15 @@ else
             @if (this.User.Identity.Name == comment.Creator)
             {
                 <div class="col-xl-auto">
-                    <form class="form-inline" asp-area="Administration" asp-controller="Comments" asp-action="Delete" method="post">
+                    <form class="form-inline" asp-controller="Comments" asp-action="Delete" method="post">
                         <input class="commentId" name="commentId" value="@comment.Id" hidden />
-                        <input class="newsId" name="newsId" value="@Model.Id" hidden />
+                        <input class="taskId" name="taskId" value="@Model.Id" hidden />
                         <button type="submit" class="btn btn-sm btn-outline-secondary">Delete Comment</button>
                     </form>
                 </div>
                 <div class="col-xl-auto">
                     <form class="form-inline" asp-controller="Comments" asp-action="Edit" method="get">
-                        <input class="newsId" name="newsId" value="@Model.Id" hidden />
+                        <input class="taskId" name="taskId" value="@Model.Id" hidden />
                         <button type="submit" class="btn btn-sm btn-outline-secondary">Edit Comment</button>
                     </form>
                 </div>
