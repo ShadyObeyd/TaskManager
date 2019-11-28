@@ -50,7 +50,7 @@
             {
                 return this.RedirectToAction("Open", "Tasks", new { taskId });
             }
-            
+
         }
 
         [HttpGet]
@@ -74,7 +74,6 @@
                 var model = this.tasksService.GetReadTaskModel(taskId);
                 return this.View(model);
             }
-            
         }
     }
 }

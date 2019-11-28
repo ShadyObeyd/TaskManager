@@ -23,6 +23,7 @@
         [Display(Name = "Task Types")]
         [RegularExpression(StatusAndTypeValidationRegex, ErrorMessage = "Please write the types separated by comma!")]
         public string TaskType { get; set; }
+
         [Required]
         [Display(Name = "Assigned to")]
         [RegularExpression(EmailValidationRegex, ErrorMessage = "Please write the emails separated by comma!")]
